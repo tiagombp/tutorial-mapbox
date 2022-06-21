@@ -40,28 +40,27 @@ map.on('load', () => {
 
 })
 
-function pegaMun(name) {
+function pegaMun(nome) {
 
   return map.querySourceFeatures('municipios', {
 
     sourceLayer: 'mun_ce-adbvfq',
-    filter: ['==', ['get', 'name_muni'], name]
+    filter: ['==', ['get', 'name_muni'], nome]
     
   })[0];
 
 }
 
-function criaMascara(name) {
+function criaMascara(nome) {
 
-
-  let mun = turf.mask(pegaMun(name))
+  let mun = turf.mask(pegaMun(nome))
 
   map.addSource('city-mask', {
     'type': 'geojson',
     'data': mun
-});
+  });
 
-map.addLayer({
+  map.addLayer({
     'id': 'city-mask',
     'type': 'fill',
     'source': 'city-mask',
@@ -70,8 +69,9 @@ map.addLayer({
         'fill-opacity': 0.55,
         'fill-outline-color': 'transparent'
     }
-},
-'mun-destacado');
+  },
+  'mun-destacado');
+
 }
 /*
 function geraBbox(feature) {
@@ -93,40 +93,40 @@ function geraBbox(feature) {
 }
 */
 
-function geraBbox(name) {
+function geraBbox(nome) {
 
-  let mun = pegaMun(name);
+  let mun = pegaMun(nome);
   let bbox = turf.bbox(mun.geometry);
   
   return bbox;
 
 }
 
-function pegaCentro(name) {
+function pegaCentro(nome) {
 
-  let mun = pegaMun(name);
+  let mun = pegaMun(nome);
   let center = turf.center(mun.geometry).geometry.coordinates;
 
   return center;
 
 }
 
-function destacaCidade(name) {
+function destacaCidade(nome) {
 
   map.setFilter(
 
     'mun-destacado', [
       '==', 
       ['get', 'name_muni'], 
-      name
+      nome
     ]
   );
 
 }
 
-function voaParaCidade(name) {
+function voaParaCidade(nome) {
 
-  let centro = pegaCentro(name);
+  let centro = pegaCentro(nome);
   
   map.flyTo({
 
@@ -140,9 +140,9 @@ function voaParaCidade(name) {
 
 }
 
-function ajustaCidade(name) {
+function ajustaCidade(nome) {
 
-  let bbox = geraBbox(name);
+  let bbox = geraBbox(nome);
   
   map.fitBounds(bbox);
 
@@ -235,6 +235,7 @@ map.setFilter(
 
 
 map.getStyle().layers
+map.getStyle().layers.map(d => d.id)
 map.moveLayer('mun-destacado', 'water')
 map.moveLayer('mun-destacado', 'road-label-simple')
 */
