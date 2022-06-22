@@ -53,6 +53,12 @@ map.moveLayer('mun-destacado', 'road-label-simple');
 map.moveLayer('mun-destacado', 'water');
 ```
 
+Para remover o destaque, basta passar uma string vazia para a função:
+
+```js
+destacaCidade('');
+```
+
 ### `voltaVisaoGeral()`
 
 Volta para a visão inicial, mostrando todo o estado do Ceará.
